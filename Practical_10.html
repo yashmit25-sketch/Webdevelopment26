@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML Frames & IFrame Demo - Maps & External Pages</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Frameset Styles */
+        .header {
+            background: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+        
+        .frames-container {
+            display: flex;
+            height: calc(100vh - 80px);
+        }
+        
+        /* Left Navigation Frame */
+        .nav-frame {
+            width: 25%;
+            background: #34495e;
+            padding: 20px;
+            overflow-y: auto;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+        }
+        
+        .nav-frame h3 {
+            color: #ecf0f1;
+            margin-top: 0;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 10px;
+        }
+        
+        .nav-btn {
+            display: block;
+            width: 100%;
+            padding: 12px 15px;
+            margin: 8px 0;
+            background: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            text-align: center;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        
+        .nav-btn:hover {
+            background: #2980b9;
+            transform: translateX(5px);
+        }
+        
+        /* Main Content Frame */
+        .main-frame {
+            width: 75%;
+            position: relative;
+        }
+        
+        #main-iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.2);
+        }
+        
+        /* Loading indicator */
+        .loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            z-index: 1000;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .frames-container {
+                flex-direction: column;
+            }
+            .nav-frame, .main-frame {
+                width: 100%;
+            }
+            .nav-frame {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header Frame -->
+    <div class="header">
+        🌐 HTML FRAMES & IFRAME DEMO - Maps & External Pages
+        <br><small>Web Designing Practical</small>
+    </div>
+
+    <!-- Frames Container -->
+    <div class="frames-container">
+        <!-- Left Navigation Frame -->
+        <div class="nav-frame">
+            <h3>📱 Navigation Menu</h3>
+            
+            <button class="nav-btn" onclick="loadContent('google-maps')">
+                🗺️ Google Maps (India)
+            </button>
+            
+            <button class="nav-btn" onclick="loadContent('openstreetmap')">
+                🌍 OpenStreetMap
+            </button>
+            
+            <button class="nav-btn" onclick="loadContent('wikipedia')">
+                📚 Wikipedia Home
+            </button>
+            
+            <button class="nav-btn" onclick="loadContent('github')">
+                💻 GitHub Explore
+            </button>
+            
+            <button class="nav-btn" onclick="loadContent('news')">
+                📰 BBC News
+            </button>
+            
+            <button class="nav-btn" onclick="loadContent('youtube')">
+                🎥 YouTube
+            </button>
+            
+            <button class="nav-btn" onclick="loadContent('local-html')">
+                🏠 Local HTML Page
+            </button>
+        </div>
+
+        <!-- Main Content Frame with IFrame -->
+        <div class="main-frame">
+            <div class="loading" id="loading">Loading content...</div>
+            <iframe id="main-iframe" src="about:blank"></iframe>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for dynamic IFrame content loading
+        function loadContent(contentType) {
+            const iframe = document.getElementById('main-iframe');
+            const loading = document.getElementById('loading');
+            
+            // Show loading
+            loading.style.display = 'block';
+            
+            // Content URLs for different demonstrations
+            const urls = {
+                'google-maps': 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3888.701377!2d77.594562!3d12.971599!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3bae14928d41b2f9%3A0xf9f5d4c8b8f5c8f5!2sBengaluru%2C%20Karnataka!5e0!3m2!1sen!2sin!4v1630000000000',
+                'openstreetmap': 'https://www.openstreetmap.org/export/embed.html?bbox=77.5%2C12.9%2C77.7%2C13.1&layer=mapnik',
+                'wikipedia': 'https://en.wikipedia.org/wiki/Main_Page',
+                'github': 'https://github.com/explore',
+                'news': 'https://www.bbc.com/news',
+                'youtube': 'https://www.youtube.com',
+                'local-html': 'data:text/html,<html><head><title>Local HTML Demo</title><style>body{font-family:Arial;padding:40px;background:linear-gradient(45deg,%23ff6b6b,%239c88ff);color:white;text-align:center;}h1{font-size:2.5em;margin-bottom:20px;}p{font-size:1.2em;}</style></head><body><h1>🎉 Local HTML Page</h1><p>This is a dynamically generated local HTML page embedded in IFrame!<br>✅ Demonstrates local content embedding</p><hr><p><strong>Features:</strong></p><ul style="text-align:left;display:inline-block;"><li>Custom styling</li><li>Gradient background</li><li>Responsive design</li></ul></body></html>'
+            };
+            
+            // Load the selected content
+            iframe.src = urls[contentType];
+            
+            // Hide loading after content loads
+            iframe.onload = function() {
+                setTimeout(() => {
+                    loading.style.display = 'none';
+                }, 500);
+            };
+        }
+        
+        // Load default content (Google Maps) on page load
+        window.onload = function() {
+            loadContent('google-maps');
+        };
+    </script>
+</body>
+</html>
